@@ -1,0 +1,25 @@
+@model IEnumerable<SSR_Agile.Models.User>
+
+<h2>使用者清單</h2>
+
+<table border="1" cellpadding="5">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>帳號</th>
+            <th>信箱</th>
+            <th>建立時間</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.Username</td>
+                <td>@user.Email</td>
+                <td>@user.CreatedAt</td>
+            </tr>
+        }
+    </tbody>
+</table>

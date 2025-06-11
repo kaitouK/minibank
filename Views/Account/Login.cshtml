@@ -1,0 +1,21 @@
+@model SSR_Agile.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "登入";
+}
+
+<h2>登入</h2>
+
+<form asp-action="Login" method="post">
+    <div>
+        <label>帳號</label>
+        <input asp-for="Username" />
+    </div>
+    <div>
+        <label>密碼</label>
+        <input asp-for="Password" type="password" />
+    </div>
+    <div style="color:red">
+        @Html.ValidationSummary()
+    </div>
+    <button type="submit">登入</button>
+</form>
