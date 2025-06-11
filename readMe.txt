@@ -13,3 +13,7 @@ lambda表達式
 套件使用
 Microsoft.EntityFrameworkCore.Sqlite
 Microsoft.EntityFrameworkCore.Tools
+
+資料庫相關指令
+dotnet ef migrations add InitialCreate
+dotnet ef database update
