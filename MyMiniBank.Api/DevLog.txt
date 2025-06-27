@@ -1,0 +1,43 @@
+dotnet package
+Microsoft.AspNetCore.Authentication.JwtBearer      9.0.6   9.0.6
+Microsoft.AspNetCore.OpenApi                       9.0.5   9.0.5
+BCrypt.Net-Next                                    4.0.3   4.0.3
+Microsoft.EntityFrameworkCore.Sqlite               9.0.6   9.0.6
+Microsoft.EntityFrameworkCore.Tools                9.0.6   9.0.6
+Swashbuckle.AspNetCore                             9.0.1   9.0.1
+
+
+BCrypt演算法：用於加密密碼，內建隨機SALT加鹽，慢速且可支援動態調整成本參數
+Microsoft.AspNetCore.OpenApi 讓前端看到API路由與參數文件
+JWT 後端驗證使用者登入
+Swashbuckle: SWAGGER
+
+dotnet ef migrations add InitialCreate 
+dotnet ef database update
+
+404 Not Found : 檢查路由是否正確註冊(Program.cs中app.MapControllers();)
+
+6/25 
+將Cors設定封裝進ServiceCollectionExtensions.cs 
+將硬編碼的key改為使用JwtSettings.cs讀取appsettings.json中的設定以增加隱密性
+使用外部Middleware加入HTTP標頭增加網站安全性
+1. Content-Security-Policy避免clickjacking
+2. Strict-Transport-Security (HSTS)防止downgrade攻擊
+3. Referrer-Policy "strict-origin-when-cross-origin" 控制Referer header 避免洩漏敏感路徑資訊
+4. Permission-Policy camera=(), microphone=(), geolocation=() 限制瀏覽器功能使用(攝影機、麥克風、定位)
+5. Cross-Origin-Opener-Policy "same-origin"
+   Cross-Origin-Embedder-Policy "require-corp" 防止跨窗口干擾，強化memory安全性
+
+6/26
+規劃轉帳功能
+
+1. 驗證輸入參數（出帳帳戶、入帳帳戶、金額）
+2. 檢查出帳帳戶是否為登入使用者擁有
+3. 檢查出帳帳戶狀態（必須為 Active）
+4. 檢查金額是否大於 0，且餘額足夠
+5. 檢查入帳帳戶是否存在，且狀態為 Active
+6. 從出帳帳戶扣除金額
+7. 將金額加到入帳帳戶
+8. 建立一筆轉帳記錄 TransferTransaction
+9. 更新出入帳帳戶的 UpdatedAt
+10. 儲存變更（SaveChangesAsync）

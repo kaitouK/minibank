@@ -1,0 +1,11 @@
+{
+  "name": "myminibank",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "concurrently \"dotnet run --project MyMiniBank.Api\" \"npm start --prefix myminibank.client\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0"
+  }
+}
