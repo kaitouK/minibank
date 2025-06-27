@@ -9,7 +9,7 @@ namespace MyMiniBank.Api.Extensions
         {
             var jwtSettings = configuration.GetSection("Jwt");
             var key = jwtSettings["Key"];
-
+            //Console.WriteLine($"JWT Key: {key}"); // Log the JWT key for debugging purposes
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {

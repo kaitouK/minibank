@@ -28,6 +28,7 @@ namespace MyMiniBank.Api.Services
         };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+            //Console.WriteLine($"JWT Key: {_jwtSettings.Key}"); // Log the JWT key for debugging purposes
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
                 issuer: _jwtSettings.Issuer,

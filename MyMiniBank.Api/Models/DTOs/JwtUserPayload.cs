@@ -6,7 +6,7 @@ namespace MyMiniBank.Api.Models.DTOs
     /// </summary>
     public class JwtUserPayload
     {
-        public int Id { get; set; }
+        public int Id { get; set; } // Unique identifier for the user, typically a GUID or string
         public string Username { get; set; } = default!;
         public string Email { get; set; } = default!;
         public string Role { get; set; } = "User";

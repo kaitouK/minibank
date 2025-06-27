@@ -61,7 +61,7 @@ public class UserService : IUserService
                 UserId = user.Id, // Associate the bank account with the newly created user
                 AccountNumber = accountNumber, // Generate a random account number
                 AccountType = AccountType.Savings, // Default account type
-                Balance = 0.0m,
+                Balance = 1000000m,// Initial balance for the new account
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
                 Status = AccountStatus.Active // Default status
