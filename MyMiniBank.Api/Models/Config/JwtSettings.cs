@@ -8,7 +8,7 @@ namespace MyMiniBank.Api.Models.Config
         /// <summary>
         /// Gets or sets the secret key used for signing the JWT tokens.
         /// </summary>
-        public required string tKey { get; set; }
+        public required string Key { get; set; }
         /// <summary>
         /// Gets or sets the issuer of the JWT tokens.
         /// </summary>

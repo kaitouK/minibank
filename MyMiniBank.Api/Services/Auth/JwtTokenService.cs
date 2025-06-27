@@ -1,18 +1,20 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MyMiniBank.Api.Models.Config;
 using MyMiniBank.Api.Models.DTOs;
 using MyMiniBank.Api.Services.Interface;
 namespace MyMiniBank.Api.Services
 {
     public class JwtTokenService : IJwtTokenService
     {
-        private readonly IConfiguration _config;
+        private readonly JwtSettings _jwtSettings;
 
-        public JwtTokenService(IConfiguration config)
+        public JwtTokenService(IOptions<JwtSettings> jwtSettings)
         {
-            _config = config;
+            _jwtSettings = jwtSettings.Value ?? throw new ArgumentNullException(nameof(jwtSettings), "JWT settings cannot be null.");// Ensure that jwtSettings is not null
         }
 
         public string GenerateToken(JwtUserPayload user)
@@ -25,13 +27,13 @@ namespace MyMiniBank.Api.Services
             new Claim(ClaimTypes.Role, user.Role),
         };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
-                issuer: _config["Jwt:Issuer"],
-                audience: _config["Jwt:Audience"],
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
                 claims: claims,
-                expires: DateTime.Now.AddDays(7),
+                expires: DateTime.Now.AddDays(_jwtSettings.ExpirationDays),
                 signingCredentials: creds
             );
 

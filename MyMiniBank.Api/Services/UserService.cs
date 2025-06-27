@@ -67,8 +67,8 @@ public class UserService : IUserService
                 Status = AccountStatus.Active // Default status
             };
 
-            _dbContext.BankAccounts.Add(bankAccount);
-            await _dbContext.SaveChangesAsync();
+            _dbContext.BankAccounts.Add(bankAccount);// Add the new bank account to the context
+            await _dbContext.SaveChangesAsync();// Save changes to the database
 
             // Commit the transaction
             await transaction.CommitAsync();

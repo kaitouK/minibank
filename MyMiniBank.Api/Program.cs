@@ -4,18 +4,17 @@ using MyMiniBank.Api.Services;
 using MyMiniBank.Api.Services.Interface;
 using MyMiniBank.Api.Middlewares;
 using MyMiniBank.Api.Models.Config;
-using Microsoft.AspNetCore.Diagnostics;
 using MyMiniBank.Api.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.Configuration.AddJsonFile("config/secrets.json", optional: true, reloadOnChange: true); // Load secrets from JSON file
+builder.Configuration.AddJsonFile("config/secrets.json", optional: true, reloadOnChange: true); // Load secrets from JSON file, optional means it won't throw an error if the file is not found
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));// Configure JWT settings from appsettings.json
+//builder.Services.AddSingleton<JwtSettings>(); // Register JwtSettings as a singleton service
 //var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>();// Load JWT settings from configuration
 
-//string key = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT key is not configured.");
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 builder.Services.AddScoped<IUserService, UserService>();// Register the UserService as IUserService

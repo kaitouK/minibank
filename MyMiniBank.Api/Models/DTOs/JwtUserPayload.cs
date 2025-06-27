@@ -1,5 +1,9 @@
 namespace MyMiniBank.Api.Models.DTOs
 {
+    /// <summary>
+    /// Represents the payload of a JWT token for a user.
+    /// This class contains the user's ID, username, email, and role.
+    /// </summary>
     public class JwtUserPayload
     {
         public int Id { get; set; }
