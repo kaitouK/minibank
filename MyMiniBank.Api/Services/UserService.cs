@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore; // required for DbContext and EF Core metho
 using MyMiniBank.Api.Models.DataBaseContext; // required for AppDbContext
 using MyMiniBank.Api.Models.Entities; // required for User entity
 using MyMiniBank.Api.Utilities;
+using MyMiniBank.Api.Utilities.RegexHelpers; 
 namespace MyMiniBank.Api.Services;
 
 public class UserService : IUserService
@@ -26,13 +27,19 @@ public class UserService : IUserService
     /// <exception cref="Exception"></exception>
     public async Task<ApiResponse<RegisterResponse>> RegisterAsync(RegisterRequest request)
     {
+        if(!UserVerify.IsValidEmail(request.Username)|| 
+           !UserVerify.IsValidEmail(request.Email) || 
+           !UserVerify.IsValidPassword(request.Password))
+        {
+            return ApiResponse<RegisterResponse>.Fail("Invalid username, email, or password format");
+        }
         var exists = await _dbContext.Users
             .AnyAsync(u => u.Username == request.Username || u.Email == request.Email);
         if (exists)
         {
             return ApiResponse<RegisterResponse>.Fail("Username already exists");
         }
-
+        
         // Start a transaction to ensure atomicity
         await using var transaction = await _dbContext.Database.BeginTransactionAsync();
         try
@@ -53,6 +60,8 @@ public class UserService : IUserService
             // Ensure the account number generation is successful
             if (!AccountNumberGenerator.TryGenerate("01", out string accountNumber))
             {
+                await transaction.RollbackAsync();
+                // If account number generation fails, rollback the transaction and return an error
                 return ApiResponse<RegisterResponse>.Fail("帳號產生失敗，請稍後再試");
             }
 
