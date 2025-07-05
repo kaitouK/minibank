@@ -27,7 +27,7 @@ public class UserService : IUserService
     /// <exception cref="Exception"></exception>
     public async Task<ApiResponse<RegisterResponse>> RegisterAsync(RegisterRequest request)
     {
-        if(!UserVerify.IsValidEmail(request.Username)|| 
+        if(!UserVerify.IsValidUsername(request.Username)|| 
            !UserVerify.IsValidEmail(request.Email) || 
            !UserVerify.IsValidPassword(request.Password))
         {
